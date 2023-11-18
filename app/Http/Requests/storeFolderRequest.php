@@ -30,5 +30,5 @@ class storeFolderRequest extends parentBaseIdRequest
     return [
       'name.unique'=> "Folder ':input' already exist"
     ];
-    }
+  }
 }

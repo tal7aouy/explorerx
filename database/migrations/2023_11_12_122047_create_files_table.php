@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Kalnoy\Nestedset\NestedSet;
 
 return new class extends Migration
 {
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 1024);
             $table->string('path', 1024)->nullable();
-            $table->nestedSet();
+            NestedSet::columns($table);
             $table->boolean('is_folder');
             $table->integer('size')->nullable();
             $table->string('mime')->nullable();

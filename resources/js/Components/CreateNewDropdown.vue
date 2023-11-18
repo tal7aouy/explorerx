@@ -22,26 +22,33 @@
         >
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
-              <a class="text-gray-700 text-sm px-4 py-2 block">New Folder</a>
+              <a @click.prevent="createFolderModal()" class="text-gray-700 text-sm px-4 py-2 block cursor-pointer">New Folder</a>
             </MenuItem>
           </div>
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
-              <a class="text-gray-700 text-sm px-4 py-2 block"
+              <a class="text-gray-700 cursor-pointer text-sm px-4 py-2 block"
                 >Upload Folders</a
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <a class="text-gray-700 text-sm px-4 py-2 block">Upload Files</a>
+              <a class="text-gray-700 cursor-pointer text-sm px-4 py-2 block">Upload Files</a>
             </MenuItem>
           </div>
         </MenuItems>
       </transition>
     </Menu>
+    <CreateFolderModal :modalValue="showModalView" @update:model-value="showModalView=false"/>
   </div>
 </template>
 
 <script setup lang="ts">
+import {ref} from "vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import { ChevronDownIcon, UserIcon } from "@heroicons/vue/20/solid";
+import CreateFolderModal from "@/Components/CreateFolderModal.vue";
+
+const showModalView = ref<Boolean>(false)
+function createFolderModal(){
+  showModalView.value = true
+}
 </script>
