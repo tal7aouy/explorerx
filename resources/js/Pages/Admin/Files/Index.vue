@@ -43,7 +43,9 @@ const {files} = defineProps<{ files: Array<any> }>()
               </tr>
               </tbody>
             </table>
-
+            <div v-if="!files.data.length" class="py-8 text-center text-lg">
+              No files found.
+            </div>
           </div>
         </div>
     </div>

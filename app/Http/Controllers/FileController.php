@@ -22,7 +22,8 @@ class FileController extends Controller
       ->paginate(10);
     $files = FileResource::collection($files);
     return Inertia::render('Admin/Files/Index', [
-      'files' => $files
+      'files' => $files,
+      'folder' => $folder
     ]);
   }
 
