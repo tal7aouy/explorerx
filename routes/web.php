@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,14 +25,27 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+Route::controller(\App\Http\Controllers\FileController::class)
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::get('/files/{folder?}', 'index')
+            ->where('folder', '(.*)')
+            ->name('files.index');
+        Route::get('/trash', 'trash')->name('trash');
+        Route::post('/folder/create', 'createFolder')->name('folder.create');
+        Route::post('/file', 'store')->name('file.store');
+        Route::delete('/file', 'destroy')->name('file.delete');
+        Route::post('/file/restore', 'restore')->name('file.restore');
+        Route::delete('/file/delete-forever', 'deleteForever')->name('file.deleteForever');
+        Route::post('/file/add-to-favourites', 'addToFavourites')->name('file.addToFavourites');
+        Route::post('/file/share', 'share')->name('file.share');
+        Route::get('/shared-with-me', 'sharedWithMe')->name('file.sharedWithMe');
+        Route::get('/shared-by-me', 'sharedByMe')->name('file.sharedByMe');
+        Route::get('/file/download', 'download')->name('file.download');
+        Route::get('/file/download-shared-with-me', 'downloadSharedWithMe')->name('file.downloadSharedWithMe');
+        Route::get('/file/download-shared-by-me', 'downloadSharedByMe')->name('file.downloadSharedByMe');
+    });
 
-    Route::get('/files', [FileController::class, 'index'])->name('files.index');
-    Route::post('/folder/create', [FileController::class, 'createFolder'])->name('folders.create');
-});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
